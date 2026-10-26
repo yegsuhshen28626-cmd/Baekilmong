@@ -2574,10 +2574,20 @@
     q.textContent = "사람의 최종 목적지는 무엇입니까?";
     q.style.cssText = "margin:0 0 26px;font-family:'Noto Serif KR', serif;font-size:18px;letter-spacing:0.1em;color:#e8e2d6;text-align:center;line-height:1.8;";
     wrap.appendChild(q);
+    const warn = document.createElement("p");
+    warn.style.cssText = "margin:18px 0 0;color:#ff1a1a;font-size:15px;font-weight:700;text-shadow:0 0 8px #f00;min-height:1.6em;text-align:center;";
     makeInputRow(wrap, (ans) => {
-      if (ans.replace(/\s/g, "") === "태평") passHidden(wrap);
-      else nameGlitch(wrap, ans);
+      const a = ans.replace(/\s/g, "");
+      if (a === "태평") passHidden(wrap);
+      else if (a === "이름님" || a === "이름") nameGlitch(wrap, "이름");
+      else {
+        warn.textContent = "틀렸습니다.";
+        crackle(0.2, 0.15);
+        const inp = wrap.querySelector("input");
+        if (inp) { inp.value = ""; inp.focus(); }
+      }
     });
+    wrap.appendChild(warn);
     crackle(0.5, 0.25);
   }
 
